@@ -34,6 +34,83 @@ All notable changes to SeisComP are documented here.
 -   scmvx
     -   Render beachballs along with origin symbols.
 
+## 7.4.0
+
+-   fdsnws
+    -   Add `eventIDPolicy` config parameter.
+-   scmvx
+    -   Fix real-time station color updates.
+
+## 7.3.0
+
+**Important**: The `LOCSAT` locator does not take backazimuth and slowness of
+               a pick into account by default, see below.
+               It is recommended to only activate that behavior in GUI
+               applications. As an automatic extraction of those features can
+               be unreliable, they cause more damage w.r.t. locator results
+               than they are of particular help.
+
+```SC_API_VERSION 17.3.0```
+
+-   trunk
+    -   Fix messaging connection infinite loop when invalid frames have been
+        received. This has been visible in the application log with
+        endless "Received PONG frame???" entries.
+    -   Separate FDSNWS POST requests by only LF and not CRLF as some
+        servers do not support the latter but all servers tested support
+        LF only.
+    -   Disable usage of backazimuth and slowness by default in LocSAT
+        locator. It needs to enabled explicitely with
+        ```
+        LOCSAT.usePickBackazimuth = true
+        LOCSAT.usePickSlowness = true
+        ```
+    -   Add Seedlink4 recordstreams 'slink4' and 'slink4s'.
+-   scautopick
+    -   Add option `allowSPickersWithDetections` to allow the creation of
+        S picks even without P picks (not detections).
+-   scevent
+    -   In contrast to previous versions, `-O` and `-E` sent updates
+        unless `--test` is explicitely given. Previous versions never
+        sent updates in combination with those options.
+-   sceplog
+    -   Remove explicit newline rendering which can interfer with
+        XML output.
+-   scevtls
+    -   Add creationTime as fallback to database query if `--modified-after`
+        is being used, thanks to Mathijs Koymans / KNMI.
+-   scxmldump
+    -   Only disable messaging connection if database URI is given
+        explicitely otherwise the messaging connection is used to
+        retrieve the database connection.
+-   fdsnxml2inv
+    -   Add support for partial restricted status.
+-   ql2sc
+    -   Fix updating of event name and event operator comment if
+        `syncEventAttributes` is set to `true`.
+-   scardac
+    -   Improve performance and fix duplicate segments on rescan.
+-   locrouter
+    -   Allow multiple region profiles to reference the same locator-profile
+        combination.
+-   GUI
+    -   Add optional eventlist highlight rules.
+    -   Fix beachball forward projection, e.g. for station symbols or
+        tensor axis.
+-   scolv
+    -   Remove default visibility of status column from arrival table.
+    -   Set default messaging target groups for picks and amplitudes
+        to LOCATION to prevent a race condition in scmag which could
+        have caused duplicate magnitudes.
+    -   Fix freeze if a station magnitude has been added dynamically
+        to the currently selected magnitude.
+    -   Fix arrival table tooltip creation time which was actually the
+        pick time.
+-   scmvx
+    -   Do not update ground motion symbol color if station is disabled.
+-   nettab
+    -   Fix API compatibility.
+
 ## 7.2.3
 
 -   fdsnws
